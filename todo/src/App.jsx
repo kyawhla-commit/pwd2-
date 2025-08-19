@@ -1,19 +1,28 @@
+import { useState } from "react";
+
 function Item({ item }) {
   return <li>{item.name}</li>;
 }
 export default function App() {
-  const data = [
-    { name: "apple", done: false },
-    { name: "egg", done: false },
-    { name: "bread", done: false },
-  ];
+  const [items, setItems] = useState([
+    { id: 3, name: "apple", done: false },
+    { id: 2, name: "egg", done: false },
+    { id: 1, name: "bread", done: false },
+  ]);
+
+  const add = (name) => {
+    const id = items[0].id + 1;
+    setItems([{ id, name, done: false }, ...items]);
+  };
+
   return (
     <>
-      <h1>Hello React</h1>
+      <h1>Hello React ({items.length})</h1>
+      <button onClick={() => add("New Item")}>Add</button>
       <ul>
-        {data.map(item => {
-          return <Item item={item} />;
-        })}
+        {items.map((item) => (
+          <Item key={items.id} item={item} />
+        ))}
       </ul>
     </>
   );
