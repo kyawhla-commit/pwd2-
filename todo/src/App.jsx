@@ -14,7 +14,7 @@ export default function App() {
   ]);
 
   const add = (name) => {
-    const id = items[0].id + 1;
+    const id = items[0] ? items[0].id + 1 : 1 ;
     setItems([{ id, name, done: false }, ...items]);
   };
 
@@ -29,9 +29,13 @@ export default function App() {
     }))
   }
 
+  const clear = () => {
+    setItems(items.filter(item => !item.done))
+  }
+
   return (
     <>
-      <Header count={items.filter(item=>!item.done).length} />
+      <Header count={items.filter(item=>!item.done).length} clear={clear} />
       <Container maxWidth="sm">
         <Box sx={{ mt: 4 }}>
           <Form add={add} />
