@@ -1,16 +1,19 @@
-function Item(props) {
-  return <li>
-    {props.name} ({props.value})
-  </li>;
+function Item({ item }) {
+  return <li>{item.name}</li>;
 }
 export default function App() {
+  const data = [
+    { name: "apple", done: false },
+    { name: "egg", done: false },
+    { name: "bread", done: false },
+  ];
   return (
     <>
       <h1>Hello React</h1>
       <ul>
-        <Item name="Apple" value="123"/>
-        <Item  name="Egg" value="333"/>
-        <Item name="Bread" value="222"/>
+        {data.map(item => {
+          return <Item item={item} />;
+        })}
       </ul>
     </>
   );
