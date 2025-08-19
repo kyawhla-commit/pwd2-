@@ -13,13 +13,19 @@ export default function App() {
     setItems([{ id, name, done: false }, ...items]);
   };
 
+  const del = id => {
+    setItems(
+      items.filter(item => item.id !== id)
+    )
+  }
+
   return (
     <>
       <h1>Hello React ({items.length})</h1>
       <button onClick={() => add("New Item")}>Add</button>
       <ul>
         {items.map((item) => (
-          <Item key={items.id} item={item} />
+          <Item key={items.id} del={del} item={item} />
         ))}
       </ul>
     </>

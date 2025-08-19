@@ -1,3 +1,6 @@
-export default function Item({ item }) {
-    return <li>{item.name}</li>;
+export default function Item({ item, del }) {
+    return <li>
+        {item.name}
+        <button onClick={() => del(item.id)}>Delete</button>
+        </li>;
   }
