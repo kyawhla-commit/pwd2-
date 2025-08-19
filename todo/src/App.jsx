@@ -1,8 +1,6 @@
 import { useState } from "react";
+import Item from "./Item";
 
-function Item({ item }) {
-  return <li>{item.name}</li>;
-}
 export default function App() {
   const [items, setItems] = useState([
     { id: 3, name: "apple", done: false },
