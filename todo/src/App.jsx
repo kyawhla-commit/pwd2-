@@ -4,13 +4,13 @@ import Form from './Form';
 import Header from './Header';
 import List from './List';
 
-import { Box, Container } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 
 export default function App() {
   const [items, setItems] = useState([
-    { id: 3, name: 'apple', done: false },
-    { id: 2, name: 'egg', done: false },
-    { id: 1, name: 'bread', done: false },
+    { id: 3, name: 'Apple', done: false },
+    { id: 2, name: 'Egg', done: true },
+    { id: 1, name: 'Bread', done: false },
   ]);
 
   const add = (name) => {
@@ -22,17 +22,30 @@ export default function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  const toogle = id => {
+    setItems(items.map(item => {
+      if(item.id == id) item.done = !item.done
+      return item;
+    }))
+  }
+
   return (
     <>
-      <Header count={items.length} />
+      <Header count={items.filter(item=>!item.done).length} />
       <Container maxWidth="sm">
         <Box sx={{ mt: 4 }}>
           <Form add={add} />
         </Box>
 
         <List>
-          {items.map((item) => (
-            <Item key={item.id} del={del} item={item} />
+          {items.filter(item=>!item.done).map((item) => (
+            <Item key={item.id} toogle={toogle} del={del} item={item} />
+          ))}
+        </List>
+        <Divider/>
+        <List>
+          {items.filter(item=>item.done).map((item) => (
+            <Item key={item.id} toogle={toogle} del={del} item={item} />
           ))}
         </List>
       </Container>
