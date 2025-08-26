@@ -1,15 +1,23 @@
-import {createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { createContext } from "react";
 
-const theme = createTheme({
-    palette: {
-        mode: "dark"
-    }
-});
+import { useState } from "react";
 
-export default function AppProvider({children}) {
+export const AppContext = createContext();
+
+export default function AppProvider({ children }) {
+    const [mode, setMode] = useState("dark")
+
+    const theme = createTheme({
+        palette: {
+            mode
+        }
+    });
     return <div>
-        <ThemeProvider theme={theme}>
-            {children}
-        </ThemeProvider>
+        <AppContext.Provider value={{ mode, setMode}}>
+            <ThemeProvider theme={theme}>
+                {children}
+            </ThemeProvider>
+        </AppContext.Provider>
     </div>
 }

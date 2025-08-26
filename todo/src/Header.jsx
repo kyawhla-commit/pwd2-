@@ -1,20 +1,31 @@
 import { Toolbar, Container, Typography, AppBar, Badge, Button, IconButton } from '@mui/material';
 
 import { LightMode as LightModeIcon, DarkMode as DarkModeIcon } from "@mui/icons-material";
-export default function Header({count, clear}) {
+import AppProvider from './AppProvider';
+import { AppContext } from './AppProvider';
+import { useContext } from 'react';
+
+export default function Header({ count, clear }) {
+  const { mode, setMode } = useContext(AppContext);
   return (
     <AppBar position="static">
       <Toolbar>
-        <Container maxWidth="sm" sx={{ display: "flex"}}>
+        <Container maxWidth="sm" sx={{ display: "flex" }}>
           <Typography sx={{ flexGrow: 1 }}>
-          <Badge badgeContent={count} color="error">
-            Todo
-          </Badge>
+            <Badge badgeContent={count} color="error">
+              Todo
+            </Badge>
           </Typography>
           <Button onClick={clear} color='inherit'>Clear</Button>
-          <IconButton color='inherit'>
-            <DarkModeIcon/>
-          </IconButton>
+          {mode === "dark" ? (
+            <IconButton color='inherit' onClick={() => {setMode("light")}}>
+              <LightModeIcon />
+            </IconButton>
+          ) : (
+            <IconButton color='inherit' onClick={() => {setMode("dark")}}>
+              <DarkModeIcon />
+            </IconButton>
+          )}
         </Container>
       </Toolbar>
     </AppBar>
