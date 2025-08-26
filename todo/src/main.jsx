@@ -7,9 +7,13 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import { CssBaseline } from "@mui/material"
+import AppProvider from './AppProvider.jsx';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CssBaseline/>
-    <App />
+    <AppProvider>
+      <CssBaseline />
+      <App />
+    </AppProvider>
   </StrictMode>,
 )
