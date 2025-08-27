@@ -5,13 +5,17 @@ import Header from './Header';
 import List from './List';
 
 import { Box, Container, Divider } from '@mui/material';
+import { useEffect } from 'react';
 
 export default function App() {
-  const [items, setItems] = useState([
-    { id: 3, name: 'Apple', done: false },
-    { id: 2, name: 'Egg', done: true },
-    { id: 1, name: 'Bread', done: false },
-  ]);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8800/").then(async res=> {
+      const data = await res.json();
+      setItems(data);
+    })
+  })
 
   const add = (name) => {
     const id = items[0] ? items[0].id + 1 : 1 ;
