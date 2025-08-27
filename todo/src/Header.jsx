@@ -1,12 +1,11 @@
 import { Toolbar, Container, Typography, AppBar, Badge, Button, IconButton } from '@mui/material';
 
 import { LightMode as LightModeIcon, DarkMode as DarkModeIcon } from "@mui/icons-material";
-import AppProvider from './AppProvider';
-import { AppContext } from './AppProvider';
-import { useContext } from 'react';
+import { useApp } from './AppProvider';
+
 
 export default function Header({ count, clear }) {
-  const { mode, setMode } = useContext(AppContext);
+  const { mode, setMode } = useApp();
   return (
     <AppBar position="static">
       <Toolbar>
