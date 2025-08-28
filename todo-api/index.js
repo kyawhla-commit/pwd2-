@@ -23,6 +23,32 @@ app.post('/tasks', async (req, res) => {
    res.json(item)
 })
 
+app.delete('/tasks/:id', async (req, res) => {
+   const id = req.params.id;
+
+   const item = await prisma.todo.delete({
+      where: {
+         id: Number(id)
+      }
+   })
+   res.json(item)
+})
+
+app.put('/tasks/:id/toggle', async (req, res) => {
+   const id = req.params.id;
+
+   const item = await prisma.todo.findFirst({
+      where: {id: Number(id)}
+   })
+
+   const update =await prisma.todo.update({
+      where: {id: Number(id)},
+      data: {done: !item.done}
+   })
+
+   res.json(update);
+})
+
 app.get('/tasks', async (req, res) => {
    const items = await prisma.todo.findMany();
    res.json(items)
