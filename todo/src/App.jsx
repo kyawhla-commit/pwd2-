@@ -7,18 +7,21 @@ import List from './List';
 import { Box, Container, Divider } from '@mui/material';
 import { useEffect } from 'react';
 
+const api = "http://localhost:8800/tasks"
+
 export default function App() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8800/").then(async res=> {
-      const data = await res.json();
-      setItems(data);
-    })
+    fetch(api)
+      .then(async res => {
+        const data = await res.json();
+        setItems(data);
+      })
   })
 
   const add = (name) => {
-    const id = items[0] ? items[0].id + 1 : 1 ;
+    const id = items[0] ? items[0].id + 1 : 1;
     setItems([{ id, name, done: false }, ...items]);
   };
 
@@ -28,7 +31,7 @@ export default function App() {
 
   const toogle = id => {
     setItems(items.map(item => {
-      if(item.id == id) item.done = !item.done
+      if (item.id == id) item.done = !item.done
       return item;
     }))
   }
@@ -39,20 +42,20 @@ export default function App() {
 
   return (
     <>
-      <Header count={items.filter(item=>!item.done).length} clear={clear} />
+      <Header count={items.filter(item => !item.done).length} clear={clear} />
       <Container maxWidth="sm">
         <Box sx={{ mt: 4 }}>
           <Form add={add} />
         </Box>
 
         <List>
-          {items.filter(item=>!item.done).map((item) => (
+          {items.filter(item => !item.done).map((item) => (
             <Item key={item.id} toogle={toogle} del={del} item={item} />
           ))}
         </List>
-        <Divider/>
+        <Divider />
         <List>
-          {items.filter(item=>item.done).map((item) => (
+          {items.filter(item => item.done).map((item) => (
             <Item key={item.id} toogle={toogle} del={del} item={item} />
           ))}
         </List>
