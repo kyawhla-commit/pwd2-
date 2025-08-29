@@ -6,7 +6,7 @@ import List from './List';
 
 import { Box, Container, Divider } from '@mui/material';
 import { useEffect } from 'react';
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 async function fetchTodo() {
   const res = await fetch(api)
@@ -16,35 +16,47 @@ async function fetchTodo() {
 const api = "http://localhost:8800/tasks"
 
 export default function App() {
-const {data: items, error, isLoading } = useQuery({
-  queryKey: ['tasks'],
-  queryFn: fetchTodo,
-})
+  const { data: items, error, isLoading } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: fetchTodo,
+  })
+
+  const queryClient =  useQueryClient();
 
   const add = (name) => {
-    const id = items[0] ? items[0].id + 1 : 1;
-    setItems([{ id, name, done: false }, ...items]);
+    fetch(api, {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+      headers: {
+        'Content-Type': "Application/json"
+      }
+    })
+      .then(res => {
+        queryClient.invalidateQueries("tasks")
+      })
+     
   };
 
   const del = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+    fetch(`${api}/${id}`, {method: 'DELETE'}).then(res => {
+        queryClient.invalidateQueries("tasks")
+      })
   };
 
-  const toogle = id => {
-    setItems(items.map(item => {
-      if (item.id == id) item.done = !item.done
-      return item;
-    }))
+  const toggle = id => {
+    fetch(`${api}/${id}/toggle`, {method: 'PUT'}).then(res => {
+        queryClient.invalidateQueries("tasks")
+      })
   }
 
   const clear = () => {
     setItems(items.filter(item => !item.done))
   }
-  if(error) {
+  if (error) {
     return <div>Something went wrong...</div>
   }
 
-  if(isLoading) {
+  if (isLoading) {
     return <div>Loading.....</div>
   }
 
@@ -58,13 +70,13 @@ const {data: items, error, isLoading } = useQuery({
 
         <List>
           {items.filter(item => !item.done).map((item) => (
-            <Item key={item.id} toogle={toogle} del={del} item={item} />
+            <Item key={item.id} toogle={toggle} del={del} item={item} />
           ))}
         </List>
         <Divider />
         <List>
           {items.filter(item => item.done).map((item) => (
-            <Item key={item.id} toogle={toogle} del={del} item={item} />
+            <Item key={item.id} toogle={toggle} del={del} item={item} />
           ))}
         </List>
       </Container>
