@@ -50,7 +50,9 @@ export default function App() {
   }
 
   const clear = () => {
-    setItems(items.filter(item => !item.done))
+    fetch(api, {method: "DELETE"}).then(res => {
+      queryClient.invalidateQueries("tasks")
+    })
   }
   if (error) {
     return <div>Something went wrong...</div>
