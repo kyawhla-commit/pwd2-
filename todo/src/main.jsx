@@ -9,11 +9,17 @@ import '@fontsource/roboto/700.css';
 import { CssBaseline } from "@mui/material"
 import AppProvider from './AppProvider.jsx';
 
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AppProvider>
-      <CssBaseline />
-      <App />
-    </AppProvider>
+    <QueryClientProvider client={queryClient}>
+      <AppProvider>
+        <CssBaseline />
+        <App />
+      </AppProvider>
+    </QueryClientProvider>
   </StrictMode>,
 )

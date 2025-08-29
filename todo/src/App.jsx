@@ -6,19 +6,20 @@ import List from './List';
 
 import { Box, Container, Divider } from '@mui/material';
 import { useEffect } from 'react';
+import { useQuery } from "@tanstack/react-query";
+
+async function fetchTodo() {
+  const res = await fetch(api)
+  return res.json()
+}
 
 const api = "http://localhost:8800/tasks"
 
 export default function App() {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetch(api)
-      .then(async res => {
-        const data = await res.json();
-        setItems(data);
-      })
-  })
+const {data: items, error, isLoading } = useQuery({
+  queryKey: ['tasks'],
+  queryFn: fetchTodo,
+})
 
   const add = (name) => {
     const id = items[0] ? items[0].id + 1 : 1;
@@ -38,6 +39,13 @@ export default function App() {
 
   const clear = () => {
     setItems(items.filter(item => !item.done))
+  }
+  if(error) {
+    return <div>Something went wrong...</div>
+  }
+
+  if(isLoading) {
+    return <div>Loading.....</div>
   }
 
   return (
