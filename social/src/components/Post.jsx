@@ -11,12 +11,20 @@ import {
 
 import {
     ChatBubbleOutlineOutlined as CommentIcon,
-    FavoriteBorderOutlined as LikeIcon
+    FavoriteBorderOutlined as LikeIcon,
+    DeleteOutline as DeleteIcon,
+
 } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 export default function Post() {
+    const Navigate = useNavigate();
+
     return (
         <Card sx={{ mb: 2 }}>
             <CardContent>
+                <IconButton sx={{ float: "right" }}>
+                    <DeleteIcon sx={{ color:"gray" }} />
+                </IconButton>
                 <Box sx={{ display: "flex", gap: 4 }}>
                     <Avatar sx={{ width: 64, height: 64, background: 'green' }} />
                 </Box>
@@ -25,19 +33,22 @@ export default function Post() {
                     <Typography sx={{ opacity: 0.4 }}>@kyawHla</Typography>
                 </Box>
                 <Typography sx={{ color: "green", fontSize: 14 }}> A few second ago </Typography>
-                <Typography sx={{ fontSize: 21, cursor: "pointer"}}>
+                <Typography 
+                sx={{ fontSize: 21, cursor: "pointer" }}
+                onClick={() => Navigate("/view")}
+                >
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque obcaecati provident magnam. Autem, atque?
                 </Typography>
-                <Box sx={{ display: "flex", justifyContent: "space-around", mt: 2}}> 
+                <Box sx={{ display: "flex", justifyContent: "space-around", mt: 2 }}>
                     <ButtonGroup>
                         <IconButton>
-                            <LikeIcon color="error"/>
+                            <LikeIcon color="error" />
                             <Button variant="text" size="sm">10</Button>
                         </IconButton>
                     </ButtonGroup>
                     <ButtonGroup>
                         <IconButton>
-                            <CommentIcon color="success"/>
+                            <CommentIcon color="success" />
                             <Button variant="text" size="sm">5</Button>
                         </IconButton>
                     </ButtonGroup>
