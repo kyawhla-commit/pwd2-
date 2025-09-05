@@ -4,15 +4,45 @@ import {
     OutlinedInput,
     Typography,
 } from "@mui/material";
+
+import { useForm } from "react-hook-form"
+
 export default function Login() {
+   const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+    const onSubmit = data => {
+        console.log(data)
+    }
     return <Box>
-        <Typography variant="h2" sx={{mb: 4}}>
+        <Typography variant="h2" sx={{ mt: 4 }}>
             Login
         </Typography>
-        <form>
-            <OutlinedInput placeholder="Username" sx={{ mb: 2}} fullWidth/>
-            <OutlinedInput placeholder="Password" type="password" sx={{ mb: 2}} fullWidth/>
-            <Button variant="contained" fullWidth>Login</Button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <OutlinedInput
+                placeholder="Username"
+                sx={{ mt: 2 }}
+                fullWidth
+                {...register("username", { required: true })}
+            />
+            {errors.username && <Typography color="error">This field is required</Typography>}
+
+            <OutlinedInput
+                placeholder="Password"
+                type="password"
+                sx={{ mt: 2 }}
+                fullWidth
+                {...register("password", { required: true })}
+            />
+            {errors.password && 
+            <Typography color="error">
+                This field is required
+            </Typography>}
+
+            <Button type="submit" sx={{ mt: 2}} variant="contained" fullWidth>Login</Button>
         </form>
     </Box>
 }
