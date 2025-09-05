@@ -24,6 +24,7 @@ export function useApp() {
 export default function AppProvider({ children }) {
     const [mode, setMode] = useState("dark");
     const [openDrawer, setOpenDrawer] = useState(false)
+    const [auth, setAuth ] = useState();
 
     const theme = useMemo(() => {
         return createTheme({
@@ -61,7 +62,7 @@ export default function AppProvider({ children }) {
         }
     ])
     return <div>
-        <AppContext.Provider value={{ mode, setMode, openDrawer, setOpenDrawer }}>
+        <AppContext.Provider value={{ mode, setMode, openDrawer, setOpenDrawer, auth, setAuth }}>
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider theme={theme}>
                     <RouterProvider router={router}/>

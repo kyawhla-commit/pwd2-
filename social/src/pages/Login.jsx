@@ -6,16 +6,24 @@ import {
 } from "@mui/material";
 
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router";
+import { useApp } from "../AppProvider";
 
 export default function Login() {
-   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
+
+    const Navigate = useNavigate();
+
+    const { setAuth } = useApp();
 
     const onSubmit = data => {
         console.log(data)
+        setAuth("Alice")
+        Navigate("/")
     }
     return <Box>
         <Typography variant="h2" sx={{ mt: 4 }}>
@@ -37,12 +45,12 @@ export default function Login() {
                 fullWidth
                 {...register("password", { required: true })}
             />
-            {errors.password && 
-            <Typography color="error">
-                This field is required
-            </Typography>}
+            {errors.password &&
+                <Typography color="error">
+                    This field is required
+                </Typography>}
 
-            <Button type="submit" sx={{ mt: 2}} variant="contained" fullWidth>Login</Button>
+            <Button type="submit" sx={{ mt: 2 }} variant="contained" fullWidth>Login</Button>
         </form>
     </Box>
 }
