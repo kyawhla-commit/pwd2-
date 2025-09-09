@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "faker-js": "^1.0.0",
+    "prisma": "^6.15.0"
+  }
+}
