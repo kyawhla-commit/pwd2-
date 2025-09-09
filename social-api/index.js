@@ -1,5 +1,5 @@
 const express = require("express")
-const app = express;
+const app = express();
 
 const cors = require("cors");
 app.use(cors());
@@ -10,6 +10,9 @@ app.use(express.urlencoded())
 
 const { PrismaClient } = require("./generated/prisma")
 const prisma = new PrismaClient();
+
+const { usersRouter } = require('./routes/users')
+app.use("/users", usersRouter);
 
 app.get("/posts", async (req, res) => {
     //
