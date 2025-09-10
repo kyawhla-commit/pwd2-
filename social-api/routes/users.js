@@ -11,9 +11,7 @@ const jwt = require("jsonwebtoken");
 const { da } = require("@faker-js/faker");
 
 router.get("/verify", auth, async (req, res) => {
-  res.json({
-    msg: "user verification success",
-  });
+  res.json(req.user);
 });
 
 router.post("/login", async (req, res) => {
@@ -32,7 +30,7 @@ router.post("/login", async (req, res) => {
       if (await bcrypt.compare(password, user.password)) {
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRECT);
 
-        return res.json({ token });
+        return res.json({ token, user });
       }
     }
 
@@ -75,3 +73,6 @@ router.post("/register", async (req, res) => {
 });
 
 module.exports = { usersRouter: router };
+// 1:39
+
+
